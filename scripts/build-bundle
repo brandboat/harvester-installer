@@ -7,6 +7,8 @@ PACKAGE_HARVESTER_OS_DIR="${TOP_DIR}/package/harvester-os"
 PACKAGE_HARVESTER_REPO_DIR="${TOP_DIR}/package/harvester-repo"
 : ${RKE2_IMAGE_REPO:=https://github.com/rancher/rke2/releases/download/}
 
+echo "[bb] TOP_DIR: ${TOP_DIR}"
+
 cd ${TOP_DIR}
 
 addons_path=../addons
@@ -222,7 +224,10 @@ save_image "common" $BUNDLE_DIR ${IMAGES_LISTS_DIR}/${image_list_file} ${IMAGES_
 # This makes it possible to upgrade from master builds to master builds
 upgrade_image_repo=$(yq -e e '.upgrade.image.repository' $values_file)
 upgrade_image_tag=$(yq -e e '.upgrade.image.tag' $values_file)
+echo "[bb] upgrade_image_tag: ${upgrade_image_tag} !!!"
+echo "[bb] HARVESTER_VERSION: ${HARVESTER_VERSION} !!!"
 if [ "$upgrade_image_tag" != "$HARVESTER_VERSION" ]; then
+  echo "[bb] equals !!!"
   docker tag "${upgrade_image_repo}:${upgrade_image_tag}" "rancher/harvester-upgrade:${HARVESTER_VERSION}"
   docker tag "${upgrade_image_repo}:${upgrade_image_tag}" "rancher/harvester-upgrade:${HARVESTER_APP_VERSION}-head"
   image_list_file="${IMAGES_LISTS_DIR}/harvester-extra-${VERSION}.txt"

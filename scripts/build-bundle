@@ -149,12 +149,12 @@ image_list_file=${RANCHERD_IMAGES_DIR}/rancherd-bootstrap-images-${VERSION}.txt
 cp ${SCRIPTS_DIR}/images/rancherd-bootstrap-images.txt $image_list_file
 RKE2_VERSION_NORMALIZED=${RKE2_VERSION/+/-} # v1.21.3-rc6+rke2r2 -> v1.21.3-rc6-rke2r2
 sed -i "s,\$RKE2_VERSION,${RKE2_VERSION_NORMALIZED}," ${image_list_file}
-save_image "agent" $BUNDLE_DIR ${image_list_file} ${RANCHERD_IMAGES_DIR}
+#save_image "agent" $BUNDLE_DIR ${image_list_file} ${RANCHERD_IMAGES_DIR}
 
 # Rancher images
 image_list_file=${IMAGES_LISTS_DIR}/rancher-images-${RANCHER_VERSION}.txt
 cp ${SCRIPTS_DIR}/images/rancher-images.txt $image_list_file
-save_image "common" $BUNDLE_DIR $image_list_file ${IMAGES_DIR}
+#save_image "common" $BUNDLE_DIR $image_list_file ${IMAGES_DIR}
 
 # RKE2 images
 RKE2_IMAGES_URL="${RKE2_IMAGE_REPO}${RKE2_VERSION}"
@@ -169,7 +169,7 @@ add_image_list_to_metadata "rke2" $BUNDLE_DIR $image_list_file $image_archive
 image_list_file="${IMAGES_LISTS_DIR}/rke2-images-multus.linux-amd64-${RKE2_VERSION_NORMALIZED}.txt"
 save_image_list "rke2-images-multus" "${RKE2_IMAGES_URL}/rke2-images-multus.linux-amd64.txt" $image_list_file
 
-save_image "rke2" $BUNDLE_DIR $image_list_file ${IMAGES_DIR}
+#save_image "rke2" $BUNDLE_DIR $image_list_file ${IMAGES_DIR}
 
 # Harvester images: get image list from harvester chart's values file
 image_list_file="harvester-images-${VERSION}.txt"
@@ -216,7 +216,7 @@ sort -u "${image_list_file}.tmp" | \
 grep -Ev "local-path-provisioner|library-traefik|klipper-lb|multus" >"${image_list_file}"
 
 cp ${image_list_file} ${IMAGES_LISTS_DIR}
-save_image "common" $BUNDLE_DIR ${IMAGES_LISTS_DIR}/${image_list_file} ${IMAGES_DIR}
+#save_image "common" $BUNDLE_DIR ${IMAGES_LISTS_DIR}/${image_list_file} ${IMAGES_DIR}
 
 # Tag harvester-upgrade:master-head to harvester-upgrade:<version> and save the image to an archive
 # This makes it possible to upgrade a cluster with a master ISO.
@@ -227,7 +227,7 @@ upgrade_image_tag=$(yq -e e '.upgrade.image.tag' $values_file)
 echo "[bb] upgrade_image_tag: ${upgrade_image_tag} !!!"
 echo "[bb] HARVESTER_VERSION: ${HARVESTER_VERSION} !!!"
 if [ "$upgrade_image_tag" != "$HARVESTER_VERSION" ]; then
-  echo "[bb] equals !!!"
+  echo "[bb] not equals !!!"
   docker tag "${upgrade_image_repo}:${upgrade_image_tag}" "rancher/harvester-upgrade:${HARVESTER_VERSION}"
   docker tag "${upgrade_image_repo}:${upgrade_image_tag}" "rancher/harvester-upgrade:${HARVESTER_APP_VERSION}-head"
   image_list_file="${IMAGES_LISTS_DIR}/harvester-extra-${VERSION}.txt"
@@ -240,4 +240,3 @@ if [ "$upgrade_image_tag" != "$HARVESTER_VERSION" ]; then
 fi
 
 reset_charts
-exit 0

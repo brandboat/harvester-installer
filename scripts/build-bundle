@@ -224,6 +224,7 @@ cp ${image_list_file} ${IMAGES_LISTS_DIR}
 # This makes it possible to upgrade from master builds to master builds
 upgrade_image_repo=$(yq -e e '.upgrade.image.repository' $values_file)
 upgrade_image_tag=$(yq -e e '.upgrade.image.tag' $values_file)
+cat $values_file
 echo "[bb] upgrade_image_tag: ${upgrade_image_tag} !!!"
 echo "[bb] HARVESTER_VERSION: ${HARVESTER_VERSION} !!!"
 if [ "$upgrade_image_tag" != "$HARVESTER_VERSION" ]; then

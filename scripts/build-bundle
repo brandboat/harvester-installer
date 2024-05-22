@@ -240,3 +240,4 @@ if [ "$upgrade_image_tag" != "$HARVESTER_VERSION" ]; then
 fi
 
 reset_charts
+exit 0

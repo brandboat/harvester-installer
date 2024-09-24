@@ -20,6 +20,7 @@ cp -r ${PACKAGE_HARVESTER_REPO_DIR}/* ${DIST_REPO_DIR}
 
 cd ${PACKAGE_HARVESTER_REPO_DIR}
 
+echo "[bb]: rancher/harvester-cluster-repo: ${VERSION}"
 CLUSTER_REPO_IMAGE=rancher/harvester-cluster-repo:${VERSION}
 docker build -t ${CLUSTER_REPO_IMAGE} .
 
